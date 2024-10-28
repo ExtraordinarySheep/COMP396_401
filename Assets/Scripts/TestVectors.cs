@@ -42,11 +42,6 @@ public class TestVectors : MonoBehaviour
         // Debug.Log($"{v2minusv1}");
         Vector3 v1times4 = vector1 * 4;
         // Debug.Log($"{v1times4}");
-        Vector3 v1times6 = vector1 * 6;
-        Vector3 v1times4 = vector1 * 10;
-
-
-
         
         // Debug.Log($"Vector1 Magnitude = {vector1.magnitude}");
 

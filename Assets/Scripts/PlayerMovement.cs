@@ -2,109 +2,98 @@ using KBCore.Refs;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : ValidatedMonoBehaviour
 {
+    #region variables
+    private PlayerInputs _inputs;
+
+    [SerializeField] private float _speed = 6f;
+    [SerializeField, Self] private CharacterController _controller;
+
     [Header("Movement")]
-    [SerializeField] private float _walkSpeed;
-    [SerializeField] private float _runMultiplier;
+    [SerializeField] private Vector2 _move;
+    [SerializeField] private Vector3 _movement;
+    [SerializeField] private Vector3 _velocity;
+
+    [Header("Ground Detection")]
+    [SerializeField, Child(Flag.ExcludeSelf)] private Transform _groundCheck;
+    [SerializeField] private LayerMask _groundMaks;
+    [SerializeField] private float _groundRadius = 0.5f;
+    [SerializeField] private bool _isGrounded;
 
     [Header("Jump")]
-    [SerializeField] private float _jumpForce;
-    [SerializeField] private float _gravity;
-
-    [Header("Look")]
-    [SerializeField] private float _mouseSensitivity;
-    [SerializeField] private float _upDownRange;
-
-    private float _verticalRotation;
-    private Camera _mainCamera;
-    private Vector3 _currentMovement = Vector3.zero;
-    private CharacterController _characterController;
-
-    private PlayerInputs _playerInputs;
-    [Header("New Input Actions")]
-    [SerializeField] private Vector2 _moveInput, _lookInput;
-    [SerializeField] private bool _isJumpPressed, _isSprintPressed;
-
+    [SerializeField] private bool _isJumpPressed;
+    [SerializeField] private float _jumpHeight = 3.0f, _initialJumpVelocity, _maxJumpTime = 0.5f;
+     
+    
+    // Constants
+    private const float GROUND_GRAVITY = -0.05f;
+    private float _gravity = -9.8f;
+    
+    #endregion
+    
+    #region Unity Methods
     private void Awake()
     {
-        _playerInputs = new PlayerInputs();
-        _characterController = GetComponent<CharacterController>();
-        _mainCamera = Camera.main;
-        Cursor.lockState = CursorLockMode.Locked;
-
-        _playerInputs.Player.Move.performed += ctx => _moveInput = ctx.ReadValue<Vector2>();
-        _playerInputs.Player.Move.canceled += _ => _moveInput = Vector2.zero;
+        _inputs = new PlayerInputs();
         
-        _playerInputs.Player.Look.performed += ctx => _lookInput = ctx.ReadValue<Vector2>();
-        _playerInputs.Player.Look.canceled += _ => _lookInput = Vector2.zero;
+        _inputs.Player.Move.performed += ctx => _move = ctx.ReadValue<Vector2>();
+        _inputs.Player.Move.canceled += _ => _move = Vector2.zero;
+        
+        _inputs.Player.Jump.started += Jump;
+        _inputs.Player.Jump.canceled += Jump;
 
-        _playerInputs.Player.Jump.started += Jump;
-        _playerInputs.Player.Jump.canceled += Jump;
+        JumpVariables();
+    }
+    private void JumpVariables()
+    {
+        float timeToApex = _maxJumpTime / 2;
+        _gravity = (-2 * _jumpHeight) / Mathf.Pow(timeToApex, 2);
+        _initialJumpVelocity = (2 * _jumpHeight) / timeToApex;
+    }
 
-        _playerInputs.Player.Run.started += Sprint;
-        _playerInputs.Player.Run.canceled += Sprint;
+    private void OnEnable() => _inputs.Enable();
+    private void OnDisable() => _inputs.Disable();
+
+    private void FixedUpdate()
+    {
+        _movement = (transform.right * _move.x + transform.forward * _move.y) * (_speed * Time.fixedDeltaTime);
+
+        if (!_controller.enabled) { return; }
+        
+        _controller.Move(_movement);
+        OnGravity();
+        _controller.Move(_velocity * Time.fixedDeltaTime);
+    }
+
+    
+    #endregion
+
+    #region Player Methods
+    
+    private void Jump(InputAction.CallbackContext callbackContext)
+    {
+        _isJumpPressed = callbackContext.ReadValueAsButton();
+        if (_isGrounded && _isJumpPressed)
+        {
+            _velocity.y = _initialJumpVelocity;
+        }
+
     }
     
-    private void Update()
+    private void OnGravity()
     {
-        HandleRotation();
-        HandleMovement();
-    }
-
-    private void OnEnable() => _playerInputs.Enable();
-    private void OnDisable() => _playerInputs.Disable();
-
-    private void HandleMovement()
-    {
-        float speedMultiplier = _isSprintPressed ? _runMultiplier : 1f;
-
-        float verticalSpeed = _moveInput.y * _walkSpeed * speedMultiplier;
-        float horizontalSpeed = _moveInput.x * _walkSpeed * speedMultiplier;
-
-        Vector3 horizontalMovement = new Vector3(horizontalSpeed, 0, verticalSpeed);
-        horizontalMovement = transform.rotation * horizontalMovement;
+        _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundRadius, _groundMaks);
         
-        HandleGravityAndJump();
-
-        _currentMovement.x = horizontalMovement.x;
-        _currentMovement.z = horizontalMovement.z;
-        _characterController.Move(_currentMovement * (Time.deltaTime * speedMultiplier));
-    }
-    private void HandleGravityAndJump()
-    {
-        if (_characterController.isGrounded)
+        if (_isGrounded && _velocity.y < 0.0f)
         {
-            _currentMovement.y = -0.05f;
-            if (_isJumpPressed)
-            {
-                _currentMovement.y = _jumpForce;
-            }
+            _velocity.y = GROUND_GRAVITY;
         }
         else
         {
-            _currentMovement.y -= _gravity * Time.deltaTime;
+            _velocity.y += _gravity;
         }
     }
-    private void HandleRotation()
-    {
-        float mouseXRotation = _lookInput.x * _mouseSensitivity;
-        transform.Rotate(0, mouseXRotation, 0);
-
-        _verticalRotation -= _lookInput.y * _mouseSensitivity;
-        _verticalRotation = Mathf.Clamp(_verticalRotation, -_upDownRange, _upDownRange);
-        _mainCamera.transform.localRotation = Quaternion.Euler(_verticalRotation, 0, 0);
-    }
     
-    private void Jump(InputAction.CallbackContext ctx)
-    {
-        _isJumpPressed = ctx.ReadValueAsButton();
-    }
-    
-    private void Sprint(InputAction.CallbackContext ctx)
-    {
-        _isSprintPressed = ctx.ReadValueAsButton();
-    }
-
+    #endregion
 }
