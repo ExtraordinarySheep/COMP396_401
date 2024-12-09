@@ -38,6 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -451,6 +452,7 @@ GameObject:
   - component: {fileID: 255898503}
   - component: {fileID: 255898502}
   - component: {fileID: 255898501}
+  - component: {fileID: 255898507}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -470,6 +472,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67573aaf3c8bff84e91d122e54312f0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _walkSpeed: 0
+  _runMultiplier: 0
+  _jumpForce: 0
+  _gravity: 0
+  _mouseSensitivity: 0
+  _upDownRange: 0
+  _characterController: {fileID: 255898507}
+  _moveInput: {x: 0, y: 0}
+  _lookInput: {x: 0, y: 0}
+  _isJumpPressed: 0
+  _isSprintPressed: 0
 --- !u!54 &255898502
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -540,7 +553,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 153b1218935876c4297fd818fb348203, type: 2}
+  - {fileID: 2100000, guid: 6ec53bb7b95c8384598103b600aa336b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -586,6 +599,89 @@ Transform:
   - {fileID: 1989242824}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!143 &255898507
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255898500}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1001 &551090637
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5356974533351591314, guid: efebbfcbe66ed5e439cdbe4fc59944d3, type: 3}
+      propertyPath: m_Name
+      value: Jammo_LowPoly
+      objectReference: {fileID: 0}
+    - target: {fileID: 8938680079386066817, guid: efebbfcbe66ed5e439cdbe4fc59944d3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 8938680079386066817, guid: efebbfcbe66ed5e439cdbe4fc59944d3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8938680079386066817, guid: efebbfcbe66ed5e439cdbe4fc59944d3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8938680079386066817, guid: efebbfcbe66ed5e439cdbe4fc59944d3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8938680079386066817, guid: efebbfcbe66ed5e439cdbe4fc59944d3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8938680079386066817, guid: efebbfcbe66ed5e439cdbe4fc59944d3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8938680079386066817, guid: efebbfcbe66ed5e439cdbe4fc59944d3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8938680079386066817, guid: efebbfcbe66ed5e439cdbe4fc59944d3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8938680079386066817, guid: efebbfcbe66ed5e439cdbe4fc59944d3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8938680079386066817, guid: efebbfcbe66ed5e439cdbe4fc59944d3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: efebbfcbe66ed5e439cdbe4fc59944d3, type: 3}
 --- !u!1 &587105863
 GameObject:
   m_ObjectHideFlags: 0
@@ -798,6 +894,7 @@ GameObject:
   - component: {fileID: 673860665}
   - component: {fileID: 673860664}
   - component: {fileID: 673860668}
+  - component: {fileID: 673860669}
   m_Layer: 0
   m_Name: Guard
   m_TagString: Untagged
@@ -848,7 +945,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3bf1e90988d1168499d3bd670e7e74ea, type: 2}
+  - {fileID: 2100000, guid: 2367b43938eb82c4dbcbcfbe550364c7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -906,11 +1003,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentState: 0
+  _animator: {fileID: 0}
   _player: {fileID: 0}
+  _patrolArea: {fileID: 0}
+  _patrollingLocations: []
+  _HQ: {fileID: 0}
   _distanceToChase: 10
   _fieldOfView: 0.28
   _distanceToAttack: 3
   _isInFront: 0
+  _agent: {fileID: 0}
+  _walkSpeed: 3
+  _runSpeed: 6
+  _index: 0
+--- !u!195 &673860669
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673860663}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &993182380
 GameObject:
   m_ObjectHideFlags: 0
@@ -1260,3 +1387,4 @@ SceneRoots:
   - {fileID: 255898506}
   - {fileID: 673860667}
   - {fileID: 1177594236}
+  - {fileID: 551090637}
