@@ -393,7 +393,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: d69071256986a1c4bb4872d222c6ae6e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -625,6 +625,11 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &347698480 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1334914790459314939, guid: efebbfcbe66ed5e439cdbe4fc59944d3, type: 3}
+  m_PrefabInstance: {fileID: 551090637}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &551090637
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -637,6 +642,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Jammo_LowPoly
       objectReference: {fileID: 0}
+    - target: {fileID: 6757139785740679577, guid: efebbfcbe66ed5e439cdbe4fc59944d3, type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 5356974533351591314, guid: efebbfcbe66ed5e439cdbe4fc59944d3, type: 3}
+    - target: {fileID: 6757139785740679577, guid: efebbfcbe66ed5e439cdbe4fc59944d3, type: 3}
+      propertyPath: _animator
+      value: 
+      objectReference: {fileID: 347698480}
     - target: {fileID: 8938680079386066817, guid: efebbfcbe66ed5e439cdbe4fc59944d3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.45
@@ -1135,7 +1148,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3bf1e90988d1168499d3bd670e7e74ea, type: 2}
+  - {fileID: 2100000, guid: 2367b43938eb82c4dbcbcfbe550364c7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
